@@ -4,5 +4,5 @@ import com.ning.layui.vo.DataVO;
 import com.ning.layui.vo.ProductVO;
 
 public interface ProductService {
-    public DataVO<ProductVO> findData();
+    public DataVO<ProductVO> findData(Integer page, Integer limit);
 }

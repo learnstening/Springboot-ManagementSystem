@@ -20,19 +20,24 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
 
+
     @Override
-    public DataVO<ProductVO> findData() {
+    public DataVO<ProductVO> findData(Integer page, Integer limit) {
+
+        //分页
+        page = (page-1)*limit;
+        ArrayList<Product> products = productMapper.findByPager(page, limit);
+
+
         DataVO dataVO = new DataVO();
         dataVO.setCode(0);
         dataVO.setMsg("");
         dataVO.setCount(productMapper.getProductCount());
-//            BeanUtils.copyProperties(product,productVO);
-
-        ArrayList<Product> allProduct = productMapper.getAllProduct();
+//        ArrayList<Product> allProduct = productMapper.getAllProduct();
 
         ArrayList<ProductVO> productVOS = new ArrayList<>();
 
-        for (Product product : allProduct) {
+        for (Product product : products) {
             ProductVO productVO = new ProductVO();
             BeanUtils.copyProperties(product,productVO);
             productVO.setCategorylevelone(productCategoryMapper.getCategoryById(product.getCategoryleveloneId()));
@@ -40,8 +45,6 @@ public class ProductServiceImpl implements ProductService {
             productVO.setCategorylevelthree(productCategoryMapper.getCategoryById(product.getCategorylevelthreeId()));
             productVOS.add(productVO);
         }
-
-        System.out.println(productVOS);
 
         dataVO.setData(productVOS);
 

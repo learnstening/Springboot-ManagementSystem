@@ -13,7 +13,7 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping("/list")
-    public DataVO list(){
-        return productService.findData();
+    public DataVO list(Integer page,Integer limit){
+        return productService.findData(page, limit);
     }
 }
